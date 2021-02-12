@@ -1,0 +1,32 @@
+﻿<Window x:Class="BiuBiuClick.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BiuBiuClick"
+        xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="Microsoft YaHei"
+        Title="CVCompare" Height="Auto" Width="220" MinHeight="300" MaxHeight="400" ResizeMode="NoResize" Topmost="True">
+    <DockPanel Height="Auto" LastChildFill="False">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="Auto" MinHeight="50" Width="210" >
+            <ComboBox materialDesign:HintAssist.Hint="选择按钮配置" x:Name="comboBox" HorizontalAlignment="Left" Margin="21,10,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="comboBox_SelectionChanged" />
+            <Button x:Name="button_refresh" Content="{materialDesign:PackIcon Refresh}"  ToolTip="Icon" HorizontalAlignment="Left" Click="refresh_click" Margin="10 0 10 0"/>
+        </StackPanel>
+        <ListView DockPanel.Dock="Top" Name="button_list" MinHeight="50" Height="Auto" SelectionChanged="button_list_SelectionChanged" SelectionMode="Single"></ListView>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0" Height="100" Width="210" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button x:Name="button_align_1" CommandParameter="SingleScreen" Content="同屏对比" Width="90" Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" Click="align_button_Click"  Margin="10 0 0 0"/>
+            <Button x:Name="button_align_2" CommandParameter="TwoScreen" Content="分屏对比" Width="90" Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" Click="align_button_Click" Margin="10 0 0 0"/>
+            <Label Visibility="Hidden" Content=""/>
+        </StackPanel>
+        <Rectangle  DockPanel.Dock="Bottom" Margin="0 0 0 10" Width="220" Height="1" Fill="{DynamicResource MaterialDesignDivider}"/>
+        
+
+    </DockPanel>
+
+</Window>

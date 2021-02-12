@@ -1,0 +1,188 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.IO;
+using System.Diagnostics;
+using System.ComponentModel;
+using System.Collections;
+
+namespace BiuBiuClick
+{
+    /// <summary>
+    /// MainWindow.xaml 的交互逻辑
+    /// </summary>
+    public partial class MainWindow : Window
+    {        
+        private DirectoryInfo ButtonsFolder;
+        private List<String> buttonImages;
+        private List<ListViewItem> items;
+        static String DEFAULT_CONFIG_DIR = "app/config";
+        static String CLICK_APP_PATH = "app/click.exe";        
+
+        public MainWindow()
+        {
+            InitializeComponent();           
+            if (System.Windows.Forms.SystemInformation.MonitorCount < 2)
+            {
+                button_align_2.IsEnabled = false;
+            }
+            this.ButtonsFolder = new DirectoryInfo(DEFAULT_CONFIG_DIR);
+            this.buttonImages = new List<String>();
+            this.items = new List<ListViewItem>();
+            loadButtonConfig();
+        }
+
+        private void loadButtonConfig() 
+        {
+            String selectedConfig = comboBox.SelectedItem == null ? null : comboBox.SelectedItem.ToString();
+
+            int selectedIndex = -1;
+            List<String> config = new List<String>();
+            try
+            {
+                foreach (DirectoryInfo NextDir in this.ButtonsFolder.GetDirectories())
+                {
+                    config.Add(NextDir.Name);
+                    if (NextDir.Name.Equals(selectedConfig)) 
+                    {
+                        selectedIndex = comboBox.SelectedIndex;
+                    }
+                }
+            }
+            catch(Exception e){
+                MessageBox.Show("加载按钮配置出现错误：" + e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+           
+            comboBox.ItemsSource = config;
+            if (config.Count > 0)
+            {                
+                comboBox.SelectedIndex = selectedIndex > -1 ? selectedIndex : 0;                
+            }
+        }
+
+        private void loadButtons(String configName)
+        {
+            if (null != configName) 
+            {
+                try
+                {
+                    this.buttonImages.Clear();
+                    foreach (FileInfo NextFile in new DirectoryInfo(DEFAULT_CONFIG_DIR + "/" + configName).GetFiles())
+                    {
+                        if (NextFile.Extension.ToLower().Equals(".png"))
+                        {
+                            Image image = new Image();
+                            image.Source = new BitmapImage(new Uri(NextFile.FullName));
+                            ListViewItem item = new ListViewItem();
+                            item.Background = Brushes.LightGray;
+                            item.Content = image;
+                            this.items.Add(item);
+                            this.buttonImages.Add(NextFile.FullName);
+                        }
+                    }
+                    this.button_list.ItemsSource = this.items;
+                    this.button_list.Items.Refresh();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("加载按钮图片出现错误：" + e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }            
+        }
+
+        private void Image_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void refresh_click(object sender, RoutedEventArgs e)
+        {
+            loadButtonConfig();
+            loadButtons(comboBox.SelectedItem == null ? null : comboBox.SelectedItem.ToString());
+        }
+
+        private struct Config {
+            internal string className;
+            internal string macthClassNameFromRight;
+
+            internal Config(string className, string macthClassNameFromRight)
+            {
+                this.className = className;
+                this.macthClassNameFromRight = macthClassNameFromRight;
+            }
+        }
+
+        private Config readConfig()
+        {
+            Ini ini = new Ini(System.Environment.CurrentDirectory + "/" + DEFAULT_CONFIG_DIR + "/" + comboBox.SelectedItem.ToString() + "/config.ini");            
+            return new Config(ini.ReadValue("common", "className"), ini.ReadValue("common", "macthClassNameFromRight"));
+        }
+
+        private void DoClick(String buttonImagePath)
+        {
+            try
+            {
+                Process proc = Process.Start(System.Environment.CurrentDirectory + "/" + CLICK_APP_PATH, buttonImagePath);
+                if (proc != null)
+                {
+                    proc.WaitForExit(5000);
+                    if (!proc.HasExited)
+                    {
+                        // 如果外部程序没有结束运行则强行终止之。
+                        proc.Kill();
+                        //MessageBox.Show(String.Format("程序 {0} 运行时间太长被强行终止！", CLICK_APP_PATH), "执行点击按钮出现错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }                    
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "执行点击按钮出现错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void align_button_Click(object sender, RoutedEventArgs e)
+        {
+            if (comboBox.SelectedItem != null)
+            {
+                try
+                {
+                    Config config = readConfig();
+                    Button btn = (Button)sender;
+                    WindowHelper.AlignWindow(config.className, (WindowHelper.MoveMode)Enum.Parse(typeof(WindowHelper.MoveMode), btn.CommandParameter.ToString()));
+                }
+                catch (Exception e1)
+                {
+                    MessageBox.Show("运行对齐窗口程序出现错误：" + e1.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+           
+        }
+
+        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            loadButtons(comboBox.SelectedItem == null ? null : comboBox.SelectedItem.ToString());
+        }
+
+        private void button_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {            
+            String buttonImage = this.buttonImages[button_list.SelectedIndex];
+            var background = this.items[button_list.SelectedIndex].Background;
+            this.items[button_list.SelectedIndex].Background = Brushes.LightBlue;
+            button_list.Items.Refresh();
+            DoClick(buttonImage);
+            this.items[this.button_list.SelectedIndex].Background = background;
+            button_list.Items.Refresh();
+        }
+    }
+}
