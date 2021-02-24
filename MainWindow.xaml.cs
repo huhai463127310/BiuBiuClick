@@ -22,7 +22,7 @@ namespace BiuBiuClick
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow 
     {        
         private DirectoryInfo ButtonsFolder;
         private List<String> buttonImages;
@@ -32,7 +32,9 @@ namespace BiuBiuClick
 
         public MainWindow()
         {
-            InitializeComponent();           
+            InitializeComponent();
+            this.listbox_Menu.AddHandler(UIElement.MouseDownEvent, new MouseButtonEventHandler(MenuListBoxItem_MouseDown), true);
+            this.button_list.AddHandler(UIElement.MouseDownEvent, new MouseButtonEventHandler(button_list_MouseDown), true);
             if (System.Windows.Forms.SystemInformation.MonitorCount < 2)
             {
                 button_align_2.IsEnabled = false;
@@ -78,13 +80,22 @@ namespace BiuBiuClick
                 try
                 {
                     this.buttonImages.Clear();
+                    this.items.Clear();
+                    this.button_list.ItemsSource = this.items;
+                    this.button_list.Items.Refresh();
                     foreach (FileInfo NextFile in new DirectoryInfo(DEFAULT_CONFIG_DIR + "/" + configName).GetFiles())
                     {
                         if (NextFile.Extension.ToLower().Equals(".png"))
                         {
-                            Image image = new Image();
-                            image.Source = new BitmapImage(new Uri(NextFile.FullName));
+                            System.Drawing.Image button_image = System.Drawing.Image.FromFile(NextFile.FullName);
+                            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(button_image);
+                            IntPtr hBitmap = bitmap.GetHbitmap();
+                            Image image = new Image();                            
+                            ImageSource wpfBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                            image.Source = wpfBitmap;
                             ListViewItem item = new ListViewItem();
+                            //item.Width = button_image.Width;
+                            item.Height = button_image.Height;
                             item.Background = Brushes.LightGray;
                             item.Content = image;
                             this.items.Add(item);
@@ -174,7 +185,7 @@ namespace BiuBiuClick
             loadButtons(comboBox.SelectedItem == null ? null : comboBox.SelectedItem.ToString());
         }
 
-        private void button_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void button_list_MouseDown(object sender, MouseButtonEventArgs e)
         {            
             String buttonImage = this.buttonImages[button_list.SelectedIndex];
             var background = this.items[button_list.SelectedIndex].Background;
@@ -184,5 +195,37 @@ namespace BiuBiuClick
             this.items[this.button_list.SelectedIndex].Background = background;
             button_list.Items.Refresh();
         }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+        private void button_WindowMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = System.Windows.WindowState.Minimized;
+        }
+
+        private void button_WindowClose_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(Environment.ExitCode);
+        }           
+
+        private void MenuListBoxItem_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            string content = (listbox_Menu.SelectedValue as ListBoxItem).Content.ToString();
+            switch (content) {
+                case "退出": Environment.Exit(Environment.ExitCode);
+                    break;
+                case "窗口信息工具": {
+                        WindowInfoTool window = new WindowInfoTool();
+                        window.Show();
+                        window.Activate();
+                    }
+                    break;
+            }
+            
+        }
+               
     }
 }

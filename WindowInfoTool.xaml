@@ -1,0 +1,55 @@
+﻿<Window x:Class="BiuBiuClick.WindowInfoTool"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BiuBiuClick"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        mc:Ignorable="d"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="Microsoft YaHei"
+        Title="窗口信息" Height="260" Width="300" MaxHeight="260" ResizeMode="CanMinimize" Closed="Window_Closed" Topmost="True">
+    <Window.Resources>
+        <RoutedUICommand x:Key="ToolCapClick" Text="捕获按钮快捷键" />
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Alt+C" Command="{StaticResource ToolCapClick}"/>
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource ToolCapClick}"
+                    CanExecute="CommandBinding_ToolCapClick_CanExecute"
+                    Executed="CommandBinding_ToolCapClick_Executed"/>
+    </Window.CommandBindings>
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Width="70" Content="窗口标题"/>
+        <TextBox Name="textBox_WindowTitle" Grid.Row="0" Grid.Column="1" Width="200" Height="25" IsReadOnly="True" VerticalAlignment="Center" materialDesign:HintAssist.Hint=""/>
+        <Label Grid.Row="1" Grid.Column="0" Width="70" Content="窗口句柄"/>
+        <TextBox Name="textBox_WindowHandle" Grid.Row="1" Grid.Column="1" Width="200" Height="25" IsReadOnly="True" VerticalAlignment="Center" materialDesign:HintAssist.Hint="0"/>
+        <Label Grid.Row="2" Grid.Column="0" Width="70" Content="窗口位置"/>
+        <TextBox Name="textBox_WindowLocation" Grid.Row="2" Grid.Column="1" Width="200" Height="25" IsReadOnly="True" VerticalAlignment="Center" materialDesign:HintAssist.Hint="X:0 Y:0"/>
+        <Label Grid.Row="3" Grid.Column="0" Width="70" Content="窗口大小"/>
+        <TextBox Name="textBox_WindowSize" Grid.Row="3" Grid.Column="1" Width="200" Height="25" IsReadOnly="True" VerticalAlignment="Center" materialDesign:HintAssist.Hint="宽:0,高:0"/>
+        <Label Grid.Row="4" Grid.Column="0" Width="70" Content="窗口进程"/>
+        <TextBox Name="textBox_WindowProcess" Grid.Row="4" Grid.Column="1" Width="200" Height="25" IsReadOnly="True" VerticalAlignment="Center" materialDesign:HintAssist.Hint=""/>
+        <Label Grid.Row="5" Grid.Column="0" Width="70" Content="鼠标位置"/>
+        <TextBox Name="textBox_MouseLocation" Grid.Row="5" Grid.Column="1" Width="200" Height="25" IsReadOnly="True" VerticalAlignment="Center" materialDesign:HintAssist.Hint="X:0 Y:0"/>
+        <Button Grid.Row="6" Name="button_Capture" Grid.ColumnSpan="3" Width="280"  Content="开始捕获" Click="button_Capture_Click" ToolTip="快捷键：Alt+C"/>
+    </Grid>
+</Window>
