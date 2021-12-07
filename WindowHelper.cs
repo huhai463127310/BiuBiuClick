@@ -337,6 +337,9 @@ namespace BiuBiuClick
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
 
+        [DllImport("User32.dll")]
+        public static extern int SetForegroundWindow(IntPtr point);
+
         public static void AlignWindow(string className, MoveMode moveMode = MoveMode.SingleScreen)
         {
             Predicate<WindowInfo> match = x => x.IsVisible && !x.IsMinimized && x.Title.Length > 0 && className.Equals(x.ClassName);
@@ -353,6 +356,8 @@ namespace BiuBiuClick
                         int x2 = halfScreenWidth;
                         MoveWindow(windows[0].Hwnd, x1, y1, halfScreenWidth, height, true);
                         MoveWindow(windows[1].Hwnd, x2, y2, halfScreenWidth, height, true);
+                        SetForegroundWindow(windows[0].Hwnd);
+                        SetForegroundWindow(windows[1].Hwnd);
 
                         break;
                     case MoveMode.TwoScreen:
@@ -362,6 +367,8 @@ namespace BiuBiuClick
                         }
                         MoveWindow(windows[0].Hwnd, 0, 0, Screen.AllScreens[0].WorkingArea.Width, Screen.AllScreens[0].WorkingArea.Height, true);
                         MoveWindow(windows[1].Hwnd, Screen.AllScreens[0].WorkingArea.Width, 0, Screen.AllScreens[1].WorkingArea.Width, Screen.AllScreens[1].WorkingArea.Height, true);
+                        SetForegroundWindow(windows[0].Hwnd);
+                        SetForegroundWindow(windows[1].Hwnd);
                         break;
                 }
             }
@@ -542,6 +549,8 @@ namespace BiuBiuClick
             }
             
         }
+
+       
     }
 
     /// <summary>

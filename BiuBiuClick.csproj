@@ -139,6 +139,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Ini2.cs" />
+    <Compile Include="KeyController.cs" />
     <Compile Include="ImageMatcher.cs" />
     <Compile Include="MouseHook.cs" />
     <Compile Include="WindowHelper.cs" />
