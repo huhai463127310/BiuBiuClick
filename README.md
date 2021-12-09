@@ -2,6 +2,7 @@
 
 这是一个用于在Windows平台对比两个视频时控制同步播放的工具，它可以让你一键播放两个视频。
 
+![BiuBiuClick](BiuBiuClick.png)
 # 功能  
 * 默认支持 [PotPlayer](https://potplayer.daum.net/) 播放器
 * 一键控制两个播放器同时播放、暂停或停止
