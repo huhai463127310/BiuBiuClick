@@ -12,7 +12,13 @@
 # 依赖  
 
 * Windows 10
-* 需要安装 .Net Framework 4.7.2 ([微软官方下载](https://support.microsoft.com/en-us/topic/microsoft-net-framework-4-7-2-offline-installer-for-windows-05a72734-2127-a15d-50cf-daf56d5faec2))
+* 需要安装 .Net Framework 4.7.2
+
+# 安装说明 
+
+1. 请先安装.Net Framework 4.7.2 ([微软官方下载](https://support.microsoft.com/en-us/topic/microsoft-net-framework-4-7-2-offline-installer-for-windows-05a72734-2127-a15d-50cf-daf56d5faec2)) 和 PotPlayer（32位或64位均可）
+2. 解压后执行 BiuBiuClick.exe
+3. 默认支持控制PotPlayer（含32位和64位版本），其他播放器可根据 [添加播放器支持](#添加播放器支持) 小节说明自行配置
 
 # 原理  
 
@@ -74,6 +80,8 @@ property=^{F1}
 |               potplayer-property.png
 |               potplayer-stop.png
 ```
+
+8. 编辑完成后点击“重新加载配置”按钮或重启软件，点击下拉菜单中会出现新增配置
 
 # 说明  
 
