@@ -269,6 +269,23 @@ namespace BiuBiuClick
                         window.Activate();
                     }
                     break;
+                case "关于":
+                    {
+                        MessageBox.Show("这是一个用于在对比两个视频时控制同步播放的工具，功能如下：\n " +
+                            "+ 一键控制两个播放器同时播放、暂停或停止 \n " +
+                            "+ 一键将屏幕平分展示两个窗口 \n " +
+                            "+ 一键将两个窗口移动到两个屏幕上，并且全屏", 
+                            "关于", MessageBoxButton.OK, MessageBoxImage.Information);                        
+                    }
+                    break;
+                case "帮助":
+                    {
+                        if (MessageBox.Show("即将打开默认浏览器访问项目主页查看帮助，确认继续吗？", "帮助", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
+                            Process.Start("https://github.com/huhai463127310/BiuBiuClick");
+                        }
+                    }
+                    break;
             }
 
         }

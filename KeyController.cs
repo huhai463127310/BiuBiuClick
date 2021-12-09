@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 
@@ -36,7 +33,7 @@ namespace BiuBiuClick
                 string[] keyParts = key.Split(',');
                 foreach (string keyPart in keyParts)
                 {
-                    System.Windows.Forms.SendKeys.SendWait(keyPart);                    
+                    SendKeys.SendWait(keyPart);
                 }
                 Console.WriteLine("send key {" + key + "} to process " + p.ProcessName + "  which process id is " + h);
             }
