@@ -47,8 +47,8 @@
         </StackPanel>
         <ListView DockPanel.Dock="Top" Name="button_list" MinHeight="50" Height="Auto" SelectionMode="Single"></ListView>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0" Height="100" Width="210" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button x:Name="button_align_1" CommandParameter="SingleScreen" Content="同屏对比" Width="90" Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" Click="align_button_Click"  Margin="10 0 0 0"/>
-            <Button x:Name="button_align_2" CommandParameter="TwoScreen" Content="分屏对比" Width="90" Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" Click="align_button_Click" Margin="10 0 0 0"/>
+            <Button x:Name="button_align_1" CommandParameter="SingleScreen" Content="窗口同屏" Width="90" Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" Click="align_button_Click"  Margin="10 0 0 0"/>
+            <Button x:Name="button_align_2" CommandParameter="TwoScreen" Content="窗口分屏" Width="90" Height="40" Style="{DynamicResource MaterialDesignRaisedButton}" Click="align_button_Click" Margin="10 0 0 0"/>
             <Label Visibility="Hidden" Content=""/>
         </StackPanel>
         <Rectangle  DockPanel.Dock="Bottom" Margin="0 0 0 10" Width="220" Height="1" Fill="{DynamicResource MaterialDesignDivider}"/>

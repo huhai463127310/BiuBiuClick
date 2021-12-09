@@ -372,11 +372,17 @@ namespace BiuBiuClick
                         break;
                 }
             }
-            else
+            else if (windows.Count == 1)
             {
-                throw new InvalidOperationException(String.Format("需要两个{0}窗口才能对齐，但当前只有{1}个", className, windows.Count));
+                throw new InvalidOperationException(String.Format("需要两个{0}窗口才能对齐，但当前只有1个", className));
             }
-
+            else if (windows.Count == 0)
+            {
+                throw new InvalidOperationException(String.Format("当前没有{0}窗口，需要两个才能对齐", className));
+            }
+            else {
+                throw new InvalidOperationException(String.Format("当前有{0}个{1}窗口，两个才能对齐，请关闭多余窗口", windows.Count, className));
+            }
         }
         
         #region print screen DLL

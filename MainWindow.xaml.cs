@@ -29,7 +29,7 @@ namespace BiuBiuClick
         private List<String> buttonImages;
         private List<ListViewItem> items;
         static String DEFAULT_CONFIG_DIR = "app/config";
-        static String CLICK_APP_PATH = "app/click.exe";
+        //static String CLICK_APP_PATH = "app/click.exe";
         private KeyController controller;
 
         public MainWindow()
@@ -145,14 +145,14 @@ namespace BiuBiuClick
         private Config readConfig()
         {
             string iniPath = System.Environment.CurrentDirectory + "/" + DEFAULT_CONFIG_DIR + "/" + comboBox.SelectedItem.ToString() + "/config.ini";
-            Ini ini = new Ini(iniPath);
+           
             IniFile iniFile = new IniFile();
             iniFile.Load(iniPath);
 
             Config config = new Config().init();
             config.filePath = iniPath;
-            config.className = ini.ReadValue("common", "className");
-            config.macthClassNameFromRight = ini.ReadValue("common", "macthClassNameFromRight");
+            config.className = iniFile["common"]["className"].Value;
+            config.macthClassNameFromRight = iniFile["common"]["macthClassNameFromRight"].Value;
 
             config.processName = iniFile["common"]["processName"].Value;
 
