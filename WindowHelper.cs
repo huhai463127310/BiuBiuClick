@@ -337,6 +337,18 @@ namespace BiuBiuClick
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
 
+        /// <summary>
+        /// ShowWindow参数
+        /// </summary>
+        public enum SHOW_WINDOW_CMD {
+            
+            SW_SHOWNORMAL = 1,
+            SW_RESTORE = 9
+    };
+
+        [DllImport("user32.dll")] 
+        public static extern bool ShowWindow(IntPtr hWnd, SHOW_WINDOW_CMD nCmdShow);
+
         [DllImport("User32.dll")]
         public static extern int SetForegroundWindow(IntPtr point);
 
@@ -374,11 +386,11 @@ namespace BiuBiuClick
             }
             else if (windows.Count == 1)
             {
-                throw new InvalidOperationException(String.Format("需要两个{0}窗口才能对齐，但当前只有1个", className));
+                throw new InvalidOperationException(String.Format("需要两个{0}窗口才能对齐，但当前只有1个，请再开1个{1}播放器窗口", className, className));
             }
             else if (windows.Count == 0)
             {
-                throw new InvalidOperationException(String.Format("当前没有{0}窗口，需要两个才能对齐", className));
+                throw new InvalidOperationException(String.Format("当前没有{0}窗口，需要两个才能对齐, 请打开两个{1}播放器窗口", className, className));
             }
             else {
                 throw new InvalidOperationException(String.Format("当前有{0}个{1}窗口，两个才能对齐，请关闭多余窗口", windows.Count, className));

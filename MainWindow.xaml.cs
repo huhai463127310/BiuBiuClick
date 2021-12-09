@@ -17,7 +17,6 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections;
 
-
 namespace BiuBiuClick
 {
     /// <summary>
@@ -44,7 +43,7 @@ namespace BiuBiuClick
             this.ButtonsFolder = new DirectoryInfo(DEFAULT_CONFIG_DIR);
             this.buttonImages = new List<String>();
             this.items = new List<ListViewItem>();
-            this.controller = new KeyController();
+            this.controller = new KeyController(this.Dispatcher);
             loadButtonConfig();
         }
 
@@ -181,7 +180,10 @@ namespace BiuBiuClick
                     if (config.keys.Keys.Contains(buttonKey))
                     {
                         string key = config.keys[buttonKey];
-                        this.controller.sendKeyToProcessAll(config.processName, key);
+                        if (this.controller.sendKeyToProcessAll(config.processName, key) == 0)
+                        {
+                            MessageBox.Show("未找到名为 '" + config.processName + "' 的进程，请检查播放器是否已开启，或是否选对配置", "要操作的进程不存在", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
                     else {
                         MessageBox.Show("button  key: '" + buttonKey + "' not found in " + config.filePath, "按钮未在配置文件中定义", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -271,7 +273,8 @@ namespace BiuBiuClick
                     break;
                 case "关于":
                     {
-                        MessageBox.Show("这是一个用于在对比两个视频时控制同步播放的工具，功能如下：\n " +
+                        MessageBox.Show("BiubiuClick V0.1.0 \n" +
+                            "BiubiuClick是一个用于在对比两个视频时控制同步播放的工具，功能如下：\n " +
                             "+ 一键控制两个播放器同时播放、暂停或停止 \n " +
                             "+ 一键将屏幕平分展示两个窗口 \n " +
                             "+ 一键将两个窗口移动到两个屏幕上，并且全屏", 

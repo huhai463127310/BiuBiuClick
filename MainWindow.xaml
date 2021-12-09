@@ -43,7 +43,7 @@
 
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="Auto" MinHeight="50" Width="210" >
             <ComboBox materialDesign:HintAssist.Hint="选择按钮配置" x:Name="comboBox" HorizontalAlignment="Left" Margin="21,10,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="comboBox_SelectionChanged" />
-            <Button x:Name="button_refresh" Content="{materialDesign:PackIcon Refresh}"  ToolTip="Icon" HorizontalAlignment="Left" Click="refresh_click" Margin="10 0 10 0"/>
+            <Button x:Name="button_refresh" Content="{materialDesign:PackIcon Refresh}"  ToolTip="重新加载配置" HorizontalAlignment="Left" Click="refresh_click" Margin="10 0 10 0"/>
         </StackPanel>
         <ListView DockPanel.Dock="Top" Name="button_list" MinHeight="50" Height="Auto" SelectionMode="Single"></ListView>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0" Height="100" Width="210" VerticalAlignment="Center" HorizontalAlignment="Center">
