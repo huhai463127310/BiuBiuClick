@@ -1,4 +1,4 @@
-# BiubiuClick  
+# BiuBiuClick  
 
 这是一个用于在Windows平台对比两个视频时控制同步播放的工具，它可以让你一键播放两个视频。
 
