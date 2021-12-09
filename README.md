@@ -53,13 +53,13 @@ processName=PotPlayerMini
 ; 空格键打一个空格，其他键值的定义见 https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.sendkeys?view=windowsdesktop-6.0
 [keys]
 ; 暂停 空格
-pause=" "
+pause= 
 ; 播放 空格
-play=" "
+play= 
 ; 停止 potplayer无停止快捷键，使用暂停和定位到0帧模拟停止，以下配置的含义是：先按空格，再按退格键
-stop=" ,{BACKSPACE}"
+stop= ,{BACKSPACE}
 ; 属性 ALT+F1
-property="^{F1}"
+property=^{F1}
 ```   
 
 7. app下完整的目录结构为   
