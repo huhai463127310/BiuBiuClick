@@ -54,10 +54,22 @@ class KeyController
             Process[] ps = Process.GetProcessesByName(processName);
             if (ps.Length > 0) {
                 List<Thread> threadList = new List<Thread>();
-                foreach (Process p in ps)
+                Stopwatch sw = new Stopwatch();
+                long[] timeSpans = new long[ps.Length];
+                for(int i = 0; i < ps.Length; i++)
                 {
+                    Process p = ps[i];
+                    sw.Start();
                     sendKeyToProcess(p, key);
+                    sw.Stop();
+                    timeSpans[i] = sw.ElapsedMilliseconds;                    
                 }
+                for (int i = 0; i < ps.Length; i++)
+                {
+                    Process p = ps[i];
+                    Console.WriteLine("send key [{0}] to process {1}, cost {2} ms", key, p.Id, timeSpans[i]);
+                }
+                    
                 /*foreach (Process p in ps)
                 {
                     Console.WriteLine("found process " + processName + ". handle id is " + p.MainWindowHandle + ". process id is " + p.Id);
@@ -85,18 +97,18 @@ class KeyController
             {
                 IntPtr h = p.MainWindowHandle;
                 
-                bool showWindowResult = WindowHelper.ShowWindow(h, WindowHelper.SHOW_WINDOW_CMD.SW_RESTORE);
+                //bool showWindowResult = WindowHelper.ShowWindow(h, WindowHelper.SHOW_WINDOW_CMD.SW_RESTORE);
                 int setForegroundWindow = WindowHelper.SetForegroundWindow(h);
-                Console.WriteLine("handle id is " + h + ", process id is " + p.Id + ", showWindowResult = " + showWindowResult + ", setForegroundWindow=" + setForegroundWindow);
+                //Console.WriteLine("handle id is " + h + ", process id is " + p.Id + ", showWindowResult = " + showWindowResult + ", setForegroundWindow=" + setForegroundWindow);
                               
                 string[] keyParts = key.Split(',');
                 foreach (string keyPart in keyParts)
                 {
-                    Console.WriteLine("send key part [" + keyPart + "] to process " + p.ProcessName + "  which process id is " + p.Id + " handle id is " + h + ". current thread is " + Thread.CurrentThread.ManagedThreadId);
+                    //Console.WriteLine("send key part [" + keyPart + "] to process " + p.ProcessName + "  which process id is " + p.Id + " handle id is " + h + ". current thread is " + Thread.CurrentThread.ManagedThreadId);
                     SendKeys.SendWait(keyPart);
                     SendKeys.Flush();
                 }
-                Console.WriteLine("send key [" + key + "] to process " + p.ProcessName + "  which process id is " + p.Id + " handle id is " + h + ". current thread is " + Thread.CurrentThread.ManagedThreadId);
+                //Console.WriteLine("send key [" + key + "] to process " + p.ProcessName + "  which process id is " + p.Id + " handle id is " + h + ". current thread is " + Thread.CurrentThread.ManagedThreadId);
                 
             }
         }
